@@ -1,4 +1,5 @@
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
@@ -13,13 +14,22 @@ public class Duke {
         System.out.println("What can I do for you?");
 
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> commandList = new ArrayList<String>();
+
         while (true) {
-            String command = scanner.next();
+            String command = scanner.nextLine();
             if ("bye".equals(command)) {
                 System.out.println("Bye. Hope to see you again soon!");
                 break;
+            } else if ("list".equals(command)) {
+                int i = 0;
+                for (String todo : commandList) {
+                    System.out.print(++i + ". ");
+                    System.out.println(todo);
+                }
             } else {
-                System.out.println(command);
+                commandList.add(command);
+                System.out.println("added: " + command);
             }
         }
     }
