@@ -15,6 +15,7 @@ public class Duke {
 
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> taskList = new ArrayList<Task>();
+        //Task[] taskList = new Task[100];
 
         while (true) {
             String command = scanner.nextLine();
@@ -24,19 +25,44 @@ public class Duke {
             } else if ("list".equals(command)) {
                 int i = 0;
                 System.out.println("Here are the tasks in your list:");
-                for (Task todo : taskList) {
-                    System.out.println(++i + "." + "[" + todo.getStatusIcon() + "] " + todo.getTask());
+                for (Task Tasks : taskList) {
+                    System.out.println(++i + "." + Tasks.toString());
                 }
             } else if (command.startsWith("done")) {
                 int num = Integer.parseInt(command.replaceAll("[\\D]", ""));
                 num -= 1;
-                Task todo = taskList.get(num);
-                todo.markAsDone();
+                Task t = taskList.get(num);
+                t.markAsDone();
                 System.out.println("Nice! I've marked this task as done:");
-                System.out.println("  " + "[" + todo.getStatusIcon() + "] " + todo.getTask());
-            } else {
-                Task t = new Task(command);
-                System.out.println("added: " + command);
+                System.out.println("  " + t.toString());
+            } else if (command.startsWith("todo")) {
+                String description = command.substring(5);
+                Task t = new Todo(description);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println("  " + t.toString());
+                System.out.println("Now you have " + Task.getTotal() +" tasks in the list.");
+                taskList.add(t);
+            } else if (command.startsWith("deadline")) {
+                int index = command.indexOf('/');
+                index--;
+                String description = command.substring(9, index);
+                index += 5;
+                String by = command.substring(index);
+                Task t = new Deadline(description, by);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println("  " + t.toString());
+                System.out.println("Now you have " + Task.getTotal() +" tasks in the list.");
+                taskList.add(t);
+            } else if (command.startsWith("event")) {
+                int index = command.indexOf('/');
+                index--;
+                String description = command.substring(6, index);
+                index += 5;
+                String at = command.substring(index);
+                Task t = new Event(description, at);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println("  " + t.toString());
+                System.out.println("Now you have " + Task.getTotal() +" tasks in the list.");
                 taskList.add(t);
             }
         }
