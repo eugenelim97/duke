@@ -56,9 +56,14 @@ public class Duke {
                             throw new DukeException("☹ OOPS!!! The description of a deadline cannot be empty.");
                         } else {
                             String[] d = deadlineInput.split("/by", 2);
-                            Deadline deadline = new Deadline(d[0].trim(), d[1].trim());
-                            taskList.add(deadline);
-                            printAdd(deadline, taskList.size());
+                            try {
+                                DateTime dateTime = new DateTime(d[1].trim());
+                                Deadline deadline = new Deadline(d[0].trim(), dateTime.toString());
+                                taskList.add(deadline);
+                                printAdd(deadline, taskList.size());
+                            } catch (Exception e1) {
+                                throw new DukeException("Please input deadline in correct format \"DD/MM/YYYY HHmm\"");
+                            }
                         }
                         break;
                     case "event":
@@ -67,9 +72,14 @@ public class Duke {
                             throw new DukeException("☹ OOPS!!! The description of an event cannot be empty.");
                         } else {
                             String[] e = eventInput.split("/at", 2);
-                            Event event = new Event(e[0].trim(), e[1].trim());
-                            taskList.add(event);
-                            printAdd(event, taskList.size());
+                            try {
+                                DateTime dateTime = new DateTime(e[1].trim());
+                                Event event = new Event(e[0].trim(), dateTime.toString());
+                                taskList.add(event);
+                                printAdd(event, taskList.size());
+                            } catch(Exception e2) {
+                                throw new DukeException("Please input event in correct format \"DD/MM/YYYY HHmm\"");
+                            }
                         }
                         break;
                     default:
