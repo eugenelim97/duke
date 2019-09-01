@@ -1,2 +1,2 @@
 D | + | return book | 2nd of December 2019, 6:00pm
-T | + | borrow book
+T | - | borrow book
