@@ -88,6 +88,16 @@ public class Duke {
                             }
                         }
                         break;
+                    case "find":
+                        String keyword = scanner.next();
+                        int j = 0;
+                        System.out.println("Here are the matching tasks in your list:");
+                        for (Task task : taskList) {
+                            if (task.getDescription().contains(keyword)) {
+                                System.out.println(++j + "." + task.toString());
+                            }
+                        }
+                        break;
                     default:
                         scanner.nextLine();
                         throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
