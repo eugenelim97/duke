@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,8 +17,14 @@ public class Duke {
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
 
+        String filepath = "data/tasks.txt";
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> taskList = new ArrayList<Task>();
+        try {
+            readFromFile(filepath, taskList);
+        } catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
         String command = scanner.next();
         while (!"bye".equals(command)) {
             try {
@@ -35,7 +45,7 @@ public class Duke {
                         if ("".equals(todoInput)) {
                             throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
                         } else {
-                            Todo todo = new Todo(todoInput);
+                            Todo todo = new Todo(todoInput.trim());
                             taskList.add(todo);
                             printAdd(todo, taskList.size());
                         }
@@ -46,7 +56,7 @@ public class Duke {
                             throw new DukeException("☹ OOPS!!! The description of a deadline cannot be empty.");
                         } else {
                             String[] d = deadlineInput.split("/by", 2);
-                            Deadline deadline = new Deadline(d[0], d[1]);
+                            Deadline deadline = new Deadline(d[0].trim(), d[1].trim());
                             taskList.add(deadline);
                             printAdd(deadline, taskList.size());
                         }
@@ -57,7 +67,7 @@ public class Duke {
                             throw new DukeException("☹ OOPS!!! The description of an event cannot be empty.");
                         } else {
                             String[] e = eventInput.split("/at", 2);
-                            Event event = new Event(e[0], e[1]);
+                            Event event = new Event(e[0].trim(), e[1].trim());
                             taskList.add(event);
                             printAdd(event, taskList.size());
                         }
@@ -66,8 +76,9 @@ public class Duke {
                         scanner.nextLine();
                         throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
+                writeToFile(filepath, taskList);
                 command = scanner.next();
-            } catch (DukeException e) {
+            } catch (DukeException | IOException e) {
                 System.out.println(e.getMessage());
                 command = scanner.next();
             }
@@ -86,4 +97,41 @@ public class Duke {
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + t.toString());
     }
+
+    private static void writeToFile(String filePath, ArrayList<Task> taskList) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        for (Task t : taskList) {
+            fw.write(t.toTextFile() + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    private static void readFromFile(String filePath, ArrayList<Task> taskList) throws FileNotFoundException, DukeException {
+        File f = new File(filePath); // create a File for the given file path
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        while (s.hasNextLine()) {
+            try {
+                String[] Tasks = s.nextLine().split(" \\| ");
+                switch (Tasks[0]) {
+                    case "T":
+                        Todo t = new Todo(Tasks[2], "+".equals(Tasks[1]));
+                        taskList.add(t);
+                        break;
+                    case "D":
+                        Deadline d = new Deadline(Tasks[2], Tasks[3], "+".equals(Tasks[1]));
+                        taskList.add(d);
+                        break;
+                    case "E":
+                        Event e = new Event(Tasks[2], Tasks[3], "+".equals(Tasks[1]));
+                        taskList.add(e);
+                        break;
+                    default:
+                        throw new DukeException("Something went wrong in reading file");
+                }
+            } catch(DukeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }
