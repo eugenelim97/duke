@@ -37,8 +37,14 @@ public class Duke {
                         }
                         break;
                     case "done":
-                        Task t = taskList.get(scanner.nextInt() - 1);
-                        printDone(t);
+                        Task taskDone = taskList.get(scanner.nextInt() - 1);
+                        printDone(taskDone);
+                        break;
+                    case "delete":
+                        int index = scanner.nextInt() - 1;
+                        Task deleted = taskList.get(index);
+                        taskList.remove(index);
+                        printDelete(deleted, taskList.size());
                         break;
                     case "todo":
                         String todoInput = scanner.nextLine();
@@ -106,6 +112,12 @@ public class Duke {
         t.markAsDone();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + t.toString());
+    }
+
+    public static void printDelete(Task t, int num) {
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + t.toString());
+        System.out.println("Now you have " + num + " tasks in the list.");
     }
 
     private static void writeToFile(String filePath, ArrayList<Task> taskList) throws IOException {
