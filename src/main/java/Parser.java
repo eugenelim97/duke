@@ -1,5 +1,15 @@
+/**
+ * Deals with making sense of the user command
+ */
 public class Parser {
-    public static void execute(String command, TaskList tasks, Ui ui, Storage storage) throws DukeException, Exception {
+    /**
+     * Executes a different set of operation based on the input command of the user, and updates the storage
+     * @param command The whole command that is inputted by the user
+     * @param tasks The ArrayList of tasks
+     * @param ui UI that prints out appropriate messages to the user console
+     * @param storage Storage Stores all the commands and saves after every command executed
+     */
+    public static void execute(String command, TaskList tasks, Ui ui, Storage storage) {
         String[] tokens = command.split(" ");
         try {
             switch (tokens[0]) {

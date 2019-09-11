@@ -1,3 +1,6 @@
+/**
+ * Deals with interaction with the user
+ */
 public class Ui {
     String logo = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"

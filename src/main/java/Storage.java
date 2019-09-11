@@ -2,13 +2,25 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Deals with loading tasks from the file and saving tasks in the file
+ */
 public class Storage {
     private String filePath;
 
+    /**
+     * Constructor for Storage
+     * @param filePath The filepath where data is stored and needs to be loaded when the program is run
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Creates a new ArrayList of Tasks and loads it with data taken from the file
+     * @return An ArrayList of Tasks that is being loaded from the file
+     * @throws DukeException
+     */
     public ArrayList<Task> load() throws DukeException {
         ArrayList<Task> taskList = new ArrayList<>();
         try {
@@ -37,6 +49,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the Task objects in the ArrayList into a textfile
+     * @param taskList The Arraylist of Tasks in the program
+     * @throws DukeException
+     */
     public void save(TaskList taskList) throws DukeException {
         try {
             FileWriter fw = new FileWriter(filePath);

@@ -1,3 +1,6 @@
+/**
+ * Class that converts date and time into an easy-to-read format
+ */
 public class DateTime {
     protected String day;
     protected String month;
@@ -5,6 +8,10 @@ public class DateTime {
     protected String time;
     protected String period;
 
+    /**
+     * Initializes a DateTime object and converts the input String into the correct datetime format
+     * @param input The datetime input in the format of "DD/MM/YYYY HHmm"
+     */
     public DateTime(String input) {
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August",
                 "September", "October", "November", "December"};
@@ -40,7 +47,7 @@ public class DateTime {
             hour = 12;
         }
         int min = (timeInt % 100);
-        this.time = Integer.toString(hour) + ":" + String.format("%02d", min);
+        this.time = hour + ":" + String.format("%02d", min);
     }
 
     @Override
