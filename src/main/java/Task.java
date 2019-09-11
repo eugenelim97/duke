@@ -22,7 +22,7 @@ public class Task {
     }
 
     public String toString() {
-        return "{" + this.getStatusIcon() + "} " + description;
+        return "[" + this.getStatusIcon() + "] " + description;
     }
 
     public String toTextFile() {
